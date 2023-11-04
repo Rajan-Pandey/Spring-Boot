@@ -40,9 +40,17 @@ public List<RentReceipt> getAll()
 }
 
 @GetMapping("/api/RentReceipts/{id}")
-public RentReceipt getOneRent(@PathVariable("id") int id)
+public ResponseEntity<Object> getOneRent(@PathVariable("id") int id)
 {
-	return repo.findById(id).get();
+	try
+	{
+	RentReceipt receipt =  repo.findById(id).get();
+	return new ResponseEntity(receipt,HttpStatus.OK);
+	}
+	catch(Exception e)
+	{
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 }
 
 @PatchMapping("/api/RentReceipts/{id}")
@@ -56,18 +64,28 @@ public ResponseEntity<RentReceipt> udpdateRent(@PathVariable("id") int id, @Requ
 					receipt.setPaid(receiptDetails.isPaid());
 					receipt.setPaidOn(receiptDetails.getPaidOn());
 					repo.save(receipt);
-				return new ResponseEntity(receipt ,HttpStatus.OK);
+				return new ResponseEntity<>(receipt ,HttpStatus.OK);
 				}
+			return new ResponseEntity("Rent already Paid", HttpStatus.BAD_REQUEST);
 		}
 	catch(Exception e)
 		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
- return new ResponseEntity(HttpStatus.BAD_REQUEST);
 }
 
 @DeleteMapping("/api/RentReceipts/{id}")
-public void deleteRent(@PathVariable("id") int id)
+public ResponseEntity deleteRent(@PathVariable("id") int id)
 {
+	try
+	{
+		RentReceipt receipt = repo.findById(id).get();
 		repo.deleteById(id);
+		return new ResponseEntity(HttpStatus.OK);
 	}
+	catch(Exception e)
+	{
+		return new ResponseEntity(HttpStatus.NOT_FOUND);
+	}
+}
 }
