@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name="RentReceipt")
@@ -16,20 +17,15 @@ public class RentReceipt {
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 private int Id;
-@Column
-private int RoomNumber;
-@Column
+private double RoomNumber;
 private double Amount;
-@Column
+@Pattern(regexp="January|Feburary|March|April|May|June|July|August|September|October|November|December")
 private String mahina;
-@Column
 private boolean isPaid;
-@Column
 private Date DueDate;
-@Column
 private Date PaidOn;
 
-public RentReceipt(int id, int RoomNumber, double Amount, String Month, boolean isPaid, Date DueDate, Date PaidOn) {
+public RentReceipt(int id, double RoomNumber, double Amount, String Month, boolean isPaid, Date DueDate, Date PaidOn) {
 	super();
 	Id = id;
 	this.RoomNumber = RoomNumber;
@@ -45,7 +41,7 @@ public int getId() {
 public void setId(int Id) {
 	this.Id = Id;
 }
-public int getRoomNumber() {
+public double getRoomNumber() {
 	return this.RoomNumber;
 }
 public void setRoomNumber(int RoomNumber) {

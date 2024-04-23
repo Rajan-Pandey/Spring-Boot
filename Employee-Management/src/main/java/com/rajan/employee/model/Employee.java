@@ -2,6 +2,7 @@ package com.rajan.employee.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +18,7 @@ public class Employee {
 	private String location;
 	private String department;
 	private int experience;
+	@JsonFormat(pattern="yyyy-mm-dd")
 	private String dateOfJoining;
 	private long phone;
 	private String email;
